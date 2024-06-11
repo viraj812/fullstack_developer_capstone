@@ -17,7 +17,6 @@ mongoose.connect("mongodb://mongo_db:27017/", { 'dbName': 'dealershipsDB' });
 const Reviews = require('./review');
 
 const Dealerships = require('./dealership');
-const { all } = require('axios');
 
 try {
   Reviews.deleteMany({}).then(() => {
@@ -63,8 +62,8 @@ app.get('/fetchDealers', async (req, res) => {
   try {
     const allDealers = await Dealerships.find();
     res.json(allDealers);
-  } catch(error) {
-    res.status(500).json({error: 'Error fetching all dealers.'});
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching all dealers.' });
   }
 });
 
@@ -72,22 +71,22 @@ app.get('/fetchDealers', async (req, res) => {
 app.get('/fetchDealers/:state', async (req, res) => {
   //Write your code here
   try {
-    const documents = Dealerships.find({state: req.params.state});
-  res.json(document)
-  } catch(err) {
-    res.status(500).json({error: 'could not find data with this state.'})
+    const documents = await Dealerships.find({ state: req.params.state });
+    res.json(documents)
+  } catch (err) {
+    res.status(500).json({ error: 'could not find data with this state.' })
   }
-  
+
 });
 
 // Express route to fetch dealer by a particular id
 app.get('/fetchDealer/:id', async (req, res) => {
   //Write your code here
   try {
-    const documents = Dealerships.find({id: req.params.id});
-  res.json(document)
-  } catch(err) {
-    res.status(500).json({error: 'could not find data with this id.'})
+    const documents = await Dealerships.find({ id : req.params.id });
+    res.json(documents);
+  } catch (err) {
+    res.status(500).json({ error: 'could not find data with this id.' })
   }
 });
 
